@@ -53,44 +53,43 @@ import WebKit
   }
   var closeButton = UIButton(type: .system)
   // MARK: Private methods
-  private func addFeedbackView() {
-    let config = WKWebViewConfiguration()
-    config.preferences.javaScriptEnabled = true
-    config.userContentController = surveyResponseHandler
-    ssWebView = WKWebView(frame: bounds, configuration: config)
-    surveyResponseHandler.add(self, name: "surveyResponse")
-    ssWebView.navigationDelegate = self
-    ssWebView.backgroundColor = .gray
-    ssWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    addSubview(ssWebView)
-    let closeImage = UIImage(named: "close.svg")?.withRenderingMode(.alwaysTemplate)
-    closeButton.setImage(closeImage, for: .normal)
-    closeButton.tintColor = .black
-      closeButton.backgroundColor = .white
-    closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-    ssWebView.addSubview(closeButton)
-    NSLayoutConstraint.activate([
-      NSLayoutConstraint(
-        item: closeButton, attribute: .top, relatedBy: .equal, toItem: ssWebView,
-        attribute: .top, multiplier: 1, constant: -40),
-      NSLayoutConstraint(
-        item: closeButton, attribute: .trailing, relatedBy: .equal, toItem: ssWebView,
-        attribute: .trailing, multiplier: 1, constant: -16),
-      NSLayoutConstraint(
-        item: closeButton, attribute: .width, relatedBy: .equal, toItem: nil,
-        attribute: .notAnAttribute, multiplier: 1, constant: 40),
-      NSLayoutConstraint(
-        item: closeButton, attribute: .height, relatedBy: .equal, toItem: nil,
-        attribute: .notAnAttribute, multiplier: 1, constant: 40),
-    ])
-    
-    ssWebView.addSubview(loader)
-    ssWebView.navigationDelegate = self
-    loader.translatesAutoresizingMaskIntoConstraints = false
-    loader.centerXAnchor.constraint(equalTo: ssWebView.centerXAnchor).isActive = true
-    loader.centerYAnchor.constraint(equalTo: ssWebView.centerYAnchor).isActive = true
-    loader.hidesWhenStopped = true
-  }
+    private func addFeedbackView() {
+        let config = WKWebViewConfiguration()
+        config.preferences.javaScriptEnabled = true
+        config.userContentController = surveyResponseHandler
+        ssWebView = WKWebView(frame: bounds, configuration: config)
+        surveyResponseHandler.add(self, name: "surveyResponse")
+        ssWebView.navigationDelegate = self
+        ssWebView.backgroundColor = .gray
+        ssWebView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        addSubview(ssWebView)
+        closeButton.setTitle("X", for: .normal)
+        closeButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        closeButton.tintColor = .black
+        closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        ssWebView.addSubview(closeButton)
+        NSLayoutConstraint.activate([
+          NSLayoutConstraint(
+            item: closeButton, attribute: .top, relatedBy: .equal, toItem: ssWebView,
+            attribute: .top, multiplier: 1, constant: 16),
+          NSLayoutConstraint(
+            item: closeButton, attribute: .trailing, relatedBy: .equal, toItem: ssWebView,
+            attribute: .trailing, multiplier: 1, constant: -16),
+          NSLayoutConstraint(
+            item: closeButton, attribute: .width, relatedBy: .equal, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1, constant: 24),
+          NSLayoutConstraint(
+            item: closeButton, attribute: .height, relatedBy: .equal, toItem: nil,
+            attribute: .notAnAttribute, multiplier: 1, constant: 24),
+        ])
+        
+        ssWebView.addSubview(loader)
+        ssWebView.navigationDelegate = self
+        loader.translatesAutoresizingMaskIntoConstraints = false
+        loader.centerXAnchor.constraint(equalTo: ssWebView.centerXAnchor).isActive = true
+        loader.centerYAnchor.constraint(equalTo: ssWebView.centerYAnchor).isActive = true
+        loader.hidesWhenStopped = true
+      }
 
   @objc func closeButtonTapped() {
     var isSuccess = false
